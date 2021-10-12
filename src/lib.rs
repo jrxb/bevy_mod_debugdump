@@ -2,6 +2,7 @@
 use bevy::prelude::*;
 
 mod dot;
+mod zip_longest;
 
 #[cfg(feature = "render_graph")]
 pub mod render_graph;

@@ -3,7 +3,7 @@ use bevy::{
     reflect::TypeRegistration,
     render::render_graph::{Edge, NodeId, RenderGraph},
 };
-use itertools::{EitherOrBoth, Itertools};
+use crate::zip_longest::{EitherOrBoth, zip_longest};
 
 /// Formats the render graph into a dot graph.
 pub fn render_graph_dot(graph: &RenderGraph) -> String {
@@ -104,9 +104,7 @@ pub fn render_graph_dot_styled(graph: &RenderGraph, style: &RenderGraphStyle) ->
             })
             .collect::<Vec<_>>();
 
-        let slots = inputs
-            .iter()
-            .zip_longest(outputs.iter())
+        let slots = zip_longest(inputs.iter(), outputs.iter())
             .map(|pair| match pair {
                 EitherOrBoth::Both(input, output) => format!("<TR>{}{}</TR>", input, output),
                 EitherOrBoth::Left(input) => {
